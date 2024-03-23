@@ -1,31 +1,41 @@
 # githelper README
 
-This is the README for your extension "githelper". After writing up a brief description, we recommend including the following sections.
+当你创建，删除和修改文件时，它会自动帮你完成git add操作。  
+*When you create, delete or edit, it will git add automatically for you.*
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+-[x] 自动git add！  
+-[x] 为rollback提供右键和快捷键 `ctrl` `alt` `z`  
+-[x] 为stash（贮藏）和stash pop 提供右键和快捷键  
+    > git stash `ctrl` `alt` `s`  
+    > git stash pop `ctrl` `alt` `p`
 
-For example if there is an image subfolder under your extension project workspace:
+![alt text](./assets/README/image.png)
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> Tip: 
 
 ## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+建议：  
+|requirement|version|
+| - | - |
+|VsCode|1.87.0|
+|Nodejs|16.20.2|
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+* `GitHelper.skysource2030.rollbackAutoSave`: 是否开启回滚自动保存
+* `GitHelper.skysource2030.rollbackAutoSavePath`: 配置回滚自动保存路径
+* `GitHelper.skysource2030.gitAutoAdd`: 是否开启自动 `git add` 功能
+* `GitHelper.skysource2030.ignoreList`: 自动 `git add` 忽略操作的文件夹/文件名称
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+示例(这里采用的默认值)：
+```json
+"GitHelper.skysource2030.rollbackAutoSave": true,
+"GitHelper.skysource2030.rollbackAutoSavePath": "C:\\Users\\Public\\Documents\\backup",
+"GitHelper.skysource2030.gitAutoAdd": true,
+"GitHelper.skysource2030.ignoreList": [".git",".vscode"],
+```
 
 ## Known Issues
 
@@ -33,33 +43,7 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+初始版本  
+Initial version

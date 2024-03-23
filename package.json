@@ -1,0 +1,52 @@
+{
+  "name": "githelper",
+  "displayName": "GitHelper",
+  "description": "When you create, delete or edit file(s), it can add it automatically!",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "githelper.extension.rollback",
+        "title": "rollback"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "githelper.extension.rollback",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "githelper.extension.rollback",
+        "key": "ctrl+alt+z",
+        "mac": "cmd+shift+z",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.87.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9"
+  }
+}

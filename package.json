@@ -3,6 +3,7 @@
   "displayName": "GitHelper",
   "description": "When you create, delete or edit file(s), it can add it automatically!",
   "version": "0.0.1",
+  "publisher": "SkySource",
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -74,10 +75,6 @@
         {
           "command": "githelper.stashPop",
           "when": "editorTextFocus"
-        },
-        {
-          "command": "githelper.autoAdd",
-          "when": "editorTextFocus"
         }
       ]
     },
@@ -118,5 +115,10 @@
   },
   "dependencies": {
     "uuid": "^9.0.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Littledogdudu/GitHelper-vscode"
   }
 }

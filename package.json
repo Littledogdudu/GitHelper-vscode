@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
     "configuration": {
@@ -30,6 +32,14 @@
           "type": "boolean",
           "default": true,
           "description": "是否开启自动git add功能"
+        },
+        "skysource2030.ignoreList": {
+          "type": "array",
+          "default": [
+            ".git",
+            ".vscode"
+          ],
+          "description": "git add忽略的文件列表"
         }
       }
     },
@@ -64,6 +74,10 @@
         {
           "command": "githelper.stashPop",
           "when": "editorTextFocus"
+        },
+        {
+          "command": "githelper.autoAdd",
+          "when": "editorTextFocus"
         }
       ]
     },
@@ -94,12 +108,15 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.87.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3",
+    "@types/vscode": "^1.87.0",
     "@vscode/test-cli": "^0.0.6",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "uuid": "^9.0.1"
   }
 }

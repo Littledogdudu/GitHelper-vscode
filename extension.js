@@ -3,7 +3,7 @@
 const vscode = require('vscode');
 const { executeCommand } = require('./src/utils/executeCommand');
 const { rollbackSaveBackup } = require('./src/components/rollbackSaveBackup');
-const { autoAdd } = require('./src/components/autoAdd');
+const { ignoreListListener, autoAdd } = require('./src/components/autoAdd');
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 
@@ -12,6 +12,11 @@ const registerCommand = (name, callback) => {
 	return vscode.commands.registerCommand(`githelper.${name}`, callback);
 };
 
+// 自动 git add
+const disposableAutoAdd = autoAdd();
+// 监听器声明
+let autoAddListener;
+
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -19,8 +24,19 @@ function activate(context) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('接下来就由我来接管主人的git add的工作喽!');
+	// 获取插件状态
+	const shownMessageKey = 'githelper.alreadyShownMessage';
 
+	// 获取插件状态
+	const globalState = context.globalState;
+	const alreadyShown = globalState.get(shownMessageKey, false);
+
+	// 若未显示过信息，则显示信息
+	if (!alreadyShown) {
+		vscode.window.showInformationMessage('接下来就由我来接管主人git add的工作喽!');
+		globalState.update(shownMessageKey, true);
+	}
+	
 	// 回滚
 	const disposableRollback = registerCommand('rollback', () => {
 		// 获取当前活动文档
@@ -38,40 +54,45 @@ function activate(context) {
 		}
 
 		// 执行git checkout HEAD命令
-		executeCommand(`git checkout HEAD '${documentPath}'`, null);
+		executeCommand(`git checkout HEAD '${documentPath}'`);
 	});
 
 	// TODO merge： git stash --> git merge(需要考虑冲突解决) --> git stash pop
 
 	const disposableStash = registerCommand('stash', () => {
-		executeCommand('git stash', null);
+		executeCommand('git stash');
 	});
 
 	const disposableStashPop = registerCommand('stashPop', () => {
-		executeCommand('git stash pop', null);
-	});
-
-	// 自动git add
-	const disposableAutoAdd = registerCommand('autoAdd', () => {
-		const gitAutoAdd = vscode.workspace.getConfiguration().get('skysource2030.gitAutoAdd');
-		const git = vscode.extensions.getExtension('vscode.git');
-		console.log("git", git);
-		// if (gitAutoAdd) {
-		// 	// 执行git add命令
-		// 	autoAdd();
-		// }
+		executeCommand('git stash pop');
 	});
 
 	context.subscriptions.push(
 		disposableRollback,
 		disposableStash,
 		disposableStashPop,
-		disposableAutoAdd
 	);
+	// 监听配置变化 --> 自动git add
+	autoAddListener = vscode.workspace.onDidChangeConfiguration(() => {
+		const gitAutoAdd = vscode.workspace.getConfiguration().get('skysource2030.gitAutoAdd');
+		if (gitAutoAdd) {
+			context.subscriptions.push(disposableAutoAdd);
+		}
+	});
 }
 
 // This method is called when your extension is deactivated
-function deactivate() { }
+function deactivate() {
+	if (autoAddListener) {
+		autoAddListener.dispose();
+	}
+	if (disposableAutoAdd) {
+		disposableAutoAdd.dispose();
+	}
+	if (ignoreListListener) {
+		ignoreListListener.dispose();
+	}
+}
 
 module.exports = {
 	activate,

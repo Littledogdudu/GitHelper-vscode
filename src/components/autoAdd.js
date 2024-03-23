@@ -1,37 +1,51 @@
-module.exports = { autoAdd };
 const vscode = require('vscode');
 const { executeCommand } = require('../utils/executeCommand');
 
+const fileSystemWatcher = vscode.workspace.createFileSystemWatcher('**/*');
+let ignoreList;
+const ignoreListListener = vscode.workspace.onDidChangeConfiguration(() => {
+    ignoreList = vscode.workspace.getConfiguration().get('skysource2030.ignoreList');
+});
+
+function containsAny(str, substrings) {
+    return substrings.some(sub => str.includes(sub));
+}
+
 function autoAdd() {
-    // TODO 监听文件更改
-    vscode.workspace.onDidChangeTextDocument((e) => {
-        const fileName = e.document.fileName;
-        vscode.window.showInformationMessage(`File ${fileName} changed. Running git add...`);
-        runGitAdd(fileName);
+    // 使用workspace.createFileSystemWatcher创建文件系统观察者
+    
+    // 监听文件的创建、更改和删除事件
+    fileSystemWatcher.onDidChange(uri => {
+        if (containsAny(uri.fsPath, ignoreList)) {
+            return;
+        }
+        runGitAdd(uri.fsPath);
     });
-
-    // 监听文件创建
-    vscode.workspace.onDidCreateFiles((e) => {
-        const fileNames = e.files.map((file) => file.fsPath);
-        vscode.window.showInformationMessage(`Files created: ${fileNames.join(', ')}. Running git add...`);
-        runGitAdd(fileNames);
+    
+    fileSystemWatcher.onDidCreate(uri => {
+        if (containsAny(uri.fsPath, ignoreList)) {
+            return;
+        }
+        runGitAdd(uri.fsPath);
     });
-
-    // 监听文件删除
-    vscode.workspace.onDidDeleteFiles((e) => {
-        const fileNames = e.files.map((file) => file.fsPath);
-        vscode.window.showInformationMessage(`Files deleted: ${fileNames.join(', ')}. Running git add...`);
-        runGitAdd(fileNames);
+    
+    fileSystemWatcher.onDidDelete(uri => {
+        if (containsAny(uri.fsPath, ignoreList)) {
+            return;
+        }
+        runGitAdd(uri.fsPath);
     });
+    
+    return fileSystemWatcher;
 }
 
-function runGitAdd(filePaths) {
-    if (Array.isArray(filePaths)) {
-        let command = 'git add \'';
-        command += filePaths.join('\' \'');
-        command += '\'';
-        executeCommand(command, null);
-    } else {
-        executeCommand('git add \'' + filePaths + '\'', null);
-    }
+function runGitAdd(filePath) {
+    const msg = vscode.window.setStatusBarMessage(`正在添加文件 ${filePath} 到暂存区...`);
+    executeCommand('git add \'' + filePath + '\'');
+    msg.dispose();
 }
+
+module.exports = {
+    ignoreListListener,
+    autoAdd
+};

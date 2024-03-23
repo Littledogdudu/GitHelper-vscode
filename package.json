@@ -25,28 +25,65 @@
           "type": "string",
           "default": "C:\\Users\\Public\\Documents\\backup",
           "description": "回滚前自动保存回滚的文件的路径"
+        },
+        "skysource2030.gitAutoAdd": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否开启自动git add功能"
         }
       }
     },
     "commands": [
       {
-        "command": "githelper.extension.rollback",
+        "command": "githelper.rollback",
         "title": "rollback"
+      },
+      {
+        "command": "githelper.stash",
+        "title": "stash"
+      },
+      {
+        "command": "githelper.stashPop",
+        "title": "stash pop"
+      },
+      {
+        "command": "githelper.autoAdd",
+        "title": "auto add"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "githelper.extension.rollback",
+          "command": "githelper.rollback",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "githelper.stash",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "githelper.stashPop",
           "when": "editorTextFocus"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "githelper.extension.rollback",
+        "command": "githelper.rollback",
         "key": "ctrl+alt+z",
         "mac": "cmd+shift+z",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "githelper.stash",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+shift+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "githelper.stashPop",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+shift+p",
         "when": "editorTextFocus"
       }
     ]

@@ -6,5 +6,5 @@ const { getTerminal } = require('./getTerminal');
 function executeCommand(command, options) {
     const terminal = getTerminal(options);
 
-    terminal.sendText(command);
+    terminal.sendText(command, true);
 }

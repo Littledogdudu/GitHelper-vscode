@@ -3,8 +3,14 @@
 const vscode = require('vscode');
 const { executeCommand } = require('./src/utils/executeCommand');
 const { rollbackSaveBackup } = require('./src/components/rollbackSaveBackup');
+const { autoAdd } = require('./src/components/autoAdd');
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
+
+
+const registerCommand = (name, callback) => {
+	return vscode.commands.registerCommand(`githelper.${name}`, callback);
+};
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -15,10 +21,8 @@ function activate(context) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('接下来就由我来接管主人的git add的工作喽!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('githelper.extension.rollback', () => {
+	// 回滚
+	const disposableRollback = registerCommand('rollback', () => {
 		// 获取当前活动文档
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
@@ -34,10 +38,36 @@ function activate(context) {
 		}
 
 		// 执行git checkout HEAD命令
-		executeCommand(`git checkout HEAD '${documentPath}'`, "");
+		executeCommand(`git checkout HEAD '${documentPath}'`, null);
 	});
 
-	context.subscriptions.push(disposable);
+	// TODO merge： git stash --> git merge(需要考虑冲突解决) --> git stash pop
+
+	const disposableStash = registerCommand('stash', () => {
+		executeCommand('git stash', null);
+	});
+
+	const disposableStashPop = registerCommand('stashPop', () => {
+		executeCommand('git stash pop', null);
+	});
+
+	// 自动git add
+	const disposableAutoAdd = registerCommand('autoAdd', () => {
+		const gitAutoAdd = vscode.workspace.getConfiguration().get('skysource2030.gitAutoAdd');
+		const git = vscode.extensions.getExtension('vscode.git');
+		console.log("git", git);
+		// if (gitAutoAdd) {
+		// 	// 执行git add命令
+		// 	autoAdd();
+		// }
+	});
+
+	context.subscriptions.push(
+		disposableRollback,
+		disposableStash,
+		disposableStashPop,
+		disposableAutoAdd
+	);
 }
 
 // This method is called when your extension is deactivated

@@ -12,6 +12,22 @@
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "GitHelper",
+      "properties": {
+        "skysource2030.rollbackAutoSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否开启回滚前自动保存回滚的文件的功能（后悔药です）"
+        },
+        "skysource2030.rollbackAutoSavePath": {
+          "type": "string",
+          "default": "C:\\Users\\Public\\Documents\\backup",
+          "description": "回滚前自动保存回滚的文件的路径"
+        }
+      }
+    },
     "commands": [
       {
         "command": "githelper.extension.rollback",

@@ -116,6 +116,7 @@
   "dependencies": {
     "uuid": "^9.0.1"
   },
+  "icon": "assets/GerviousLadyheihei.png",
   "license": "MIT",
   "repository": {
     "type": "git",

@@ -13,7 +13,7 @@
 
 ![alt text](https://github.com/Littledogdudu/GitHelper-vscode/blob/master/assets/README/image.png)
 
-> Tip: 
+> Tip: 实现很简单哦，就是在控制台执行命令
 
 ## Requirements
 建议：  
@@ -35,6 +35,7 @@
 "GitAutoAdd.skysource2030.rollbackAutoSavePath": "C:\\Users\\Public\\Documents\\backup",
 "GitAutoAdd.skysource2030.gitAutoAdd": true,
 "GitAutoAdd.skysource2030.ignoreList": [".git",".vscode"],
+
 ```
 
 ## Known Issues

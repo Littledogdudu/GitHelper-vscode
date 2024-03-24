@@ -1,6 +1,6 @@
 {
-  "name": "githelper",
-  "displayName": "GitHelper",
+  "name": "gitautoadd",
+  "displayName": "GitAutoAdd",
   "description": "When you create, delete or edit file(s), it can add it automatically!",
   "version": "0.0.1",
   "publisher": "SkySource",
@@ -17,7 +17,7 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "GitHelper",
+      "title": "GitAutoAdd",
       "properties": {
         "skysource2030.rollbackAutoSave": {
           "type": "boolean",
@@ -46,53 +46,53 @@
     },
     "commands": [
       {
-        "command": "githelper.rollback",
+        "command": "gitautoadd.rollback",
         "title": "rollback"
       },
       {
-        "command": "githelper.stash",
+        "command": "gitautoadd.stash",
         "title": "stash"
       },
       {
-        "command": "githelper.stashPop",
+        "command": "gitautoadd.stashPop",
         "title": "stash pop"
       },
       {
-        "command": "githelper.autoAdd",
+        "command": "gitautoadd.autoAdd",
         "title": "auto add"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "githelper.rollback",
+          "command": "gitautoadd.rollback",
           "when": "editorTextFocus"
         },
         {
-          "command": "githelper.stash",
+          "command": "gitautoadd.stash",
           "when": "editorTextFocus"
         },
         {
-          "command": "githelper.stashPop",
+          "command": "gitautoadd.stashPop",
           "when": "editorTextFocus"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "githelper.rollback",
+        "command": "gitautoadd.rollback",
         "key": "ctrl+alt+z",
         "mac": "cmd+shift+z",
         "when": "editorTextFocus"
       },
       {
-        "command": "githelper.stash",
+        "command": "gitautoadd.stash",
         "key": "ctrl+alt+s",
         "mac": "cmd+shift+s",
         "when": "editorTextFocus"
       },
       {
-        "command": "githelper.stashPop",
+        "command": "gitautoadd.stashPop",
         "key": "ctrl+alt+p",
         "mac": "cmd+shift+p",
         "when": "editorTextFocus"

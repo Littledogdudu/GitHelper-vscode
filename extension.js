@@ -9,7 +9,7 @@ const { ignoreListListener, autoAdd } = require('./src/components/autoAdd');
 
 
 const registerCommand = (name, callback) => {
-	return vscode.commands.registerCommand(`githelper.${name}`, callback);
+	return vscode.commands.registerCommand(`gitautoadd.${name}`, callback);
 };
 
 // 自动 git add
